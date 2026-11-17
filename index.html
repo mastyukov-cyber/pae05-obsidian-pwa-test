@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f6fa">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Obsidian AI">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'">
+<meta name="referrer" content="no-referrer">
+<title>Obsidian AI · учебная PWA</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="stylesheet" href="./app.css">
+</head><body>
+<div class="shell" id="app">
+<section id="lock" class="lock">
+<img class="lock-brand" src="./icons/icon-192.png" width="76" height="76" alt="">
+<p class="eyebrow">PAE-05 · изолированное демо</p>
+<h1>Obsidian AI</h1>
+<p>Учебный интерфейс для вымышленных заметок. Это не вход в настоящую базу знаний.</p>
+<button id="unlock" class="btn" type="button">Открыть учебное приложение</button>
+<p class="subtitle">Без доступа к Mac, iCloud, интернет-ИИ и настоящим документам</p>
+</section>
+<div id="workspace" class="hidden">
+<header><p class="eyebrow">✦ Obsidian AI · Mock</p><h1 id="heading">Мои знания</h1><div class="subtitle">Синтетические заметки · только чтение · CP-P13</div></header>
+<main id="content" tabindex="-1"></main>
+<nav aria-label="Основные разделы">
+<button type="button" data-tab="home" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>Главная</span></button>
+<button type="button" data-tab="search" aria-current="false"><span class="nav-icon" aria-hidden="true">⌕</span><span>Поиск</span></button>
+<button type="button" data-tab="chat" aria-current="false"><span class="nav-icon" aria-hidden="true">✦</span><span>Чат</span></button>
+<button type="button" data-tab="settings" aria-current="false"><span class="nav-icon" aria-hidden="true">⚙</span><span>Настройки</span></button>
+</nav>
+</div>
+</div>
+<script src="./app.js"></script>
+</body></html>
