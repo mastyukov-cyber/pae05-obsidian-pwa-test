@@ -1,11 +1,11 @@
-# PAE-05 CP-P19 — iPhone synthetic local backup pilot · TEST v0.4.0
+# PAE-05 CP-P20 · TEST v0.5.0 · ТОЛЬКО КАНДИДАТ
 
-Source: exact CP-P17 ZIP SHA256 33d64dbca58714decd3af29947805826747dfaf23da6b625431bd838a808bf65.
+Source: exact published CP-P19 commit `65446e7c19f368a8e54f566f45296c2e8b7a3d53`.
+Status: PREPARED_IN_SANDBOX / NOT_PUBLISHED; TEST v0.4.0 in GitHub is unchanged.
 
-**NOT PUBLISHED.** Root CP-P15 and current `/p16-editor/` TEST v0.3.0 are unchanged.
-
-Adds only `backup-tools.js` plus minimal Settings controls / version metadata. Existing `mock-store.js` and `app.css` are byte-identical to CP-P17.
-
-**Synthetic-only, no personal data.** User-initiated export of IndexedDB committed records to unencrypted JSON, iOS Share Sheet if available, browser download fallback. No automatic upload or proof of completed Save to Files. Restore explicitly confirmed, only to database without persisted custom records, atomic readwrite transaction; reject file >1 MiB, >100 notes, malformed, duplicate IDs, invalid/unsorted history. No network (`connect-src 'none'`), no Dropbox, no real Gateway, no iPad flow. No live Vault read/write.
-
-Backups are not encrypted; Safari may evict IndexedDB. Do not treat export as a successful backup until physical iPhone Files readback. iPhone share/file-picker runtime NOT RUN.
+- `[[Название]]` и `[[Название|Подпись]]`: безопасная навигация между уже существующими вымышленными заметками.
+- Нельзя открыть внешнюю ссылку/файл; неоднозначные или отсутствующие цели не открываются.
+- Раздел «Инфо»: кнопки расположены с вертикальными отступами и на всю ширину.
+- Политика CSP и имя IndexedDB не меняются; экспорт/восстановление только в синтетике.
+- iPhone Safari / Gateway / Dropbox / реальные документы НЕ ПРОВЕРЕНЫ.
+- Publish требует отдельного точного подтверждения на существующую `/p16-editor/`.

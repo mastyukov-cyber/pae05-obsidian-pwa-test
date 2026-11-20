@@ -1,7 +1,7 @@
 {
-  "name": "Obsidian AI · TEST v0.4.0",
+  "name": "Obsidian AI · TEST v0.5.0",
   "short_name": "Obsidian AI TEST",
-  "description": "Только вымышленные заметки: локальное сохранение и ручная резервная копия; нет облака.",
+  "description": "Только вымышленные заметки: локальное сохранение, копии и wiki-ссылки; без облака.",
   "lang": "ru",
   "id": "./?pae05-p16-1",
   "start_url": "./?pae05-p16-1",
