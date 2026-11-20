@@ -1,0 +1,11 @@
+{
+  // CP-P22 R01 REVIEW ONLY. No Cloudflare deployment or account changes.
+  "name": "pae05-cp-p22-synthetic-staging",
+  "compatibility_date": "2026-11-20",
+  "main": "./cp-p22-worker-staging/worker.mjs",
+  "assets": {
+    "directory": "./p16-editor",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}
