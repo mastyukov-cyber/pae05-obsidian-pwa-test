@@ -1,7 +1,11 @@
-# PAE-05 CP-P17 | Obsidian AI TEST v0.3.0
+# PAE-05 CP-P19 — iPhone synthetic local backup pilot · TEST v0.4.0
 
-ONE existing repository, original /p16-editor/ path; this is an **isolated synthetic source candidate**, NOT deployed.
+Source: exact CP-P17 ZIP SHA256 33d64dbca58714decd3af29947805826747dfaf23da6b625431bd838a808bf65.
 
-IndexedDB stores only explicitly confirmed fake Markdown notes and history on the same browser device. Conflicts 409 abort without overwrite; preview-only never persists; reset requires secondary consent. Safari may evict data. No cloud cross-device sync, Gateway, secrets, Service Worker, real Vault or AI. CSP connect-src none. Existing root CP-P15 remains unchanged.
+**NOT PUBLISHED.** Root CP-P15 and current `/p16-editor/` TEST v0.3.0 are unchanged.
 
-Before deployment require independent source test, user-scoped exact GitHub permission, separate approval, Pages readback and physical iPhone QA.
+Adds only `backup-tools.js` plus minimal Settings controls / version metadata. Existing `mock-store.js` and `app.css` are byte-identical to CP-P17.
+
+**Synthetic-only, no personal data.** User-initiated export of IndexedDB committed records to unencrypted JSON, iOS Share Sheet if available, browser download fallback. No automatic upload or proof of completed Save to Files. Restore explicitly confirmed, only to database without persisted custom records, atomic readwrite transaction; reject file >1 MiB, >100 notes, malformed, duplicate IDs, invalid/unsorted history. No network (`connect-src 'none'`), no Dropbox, no real Gateway, no iPad flow. No live Vault read/write.
+
+Backups are not encrypted; Safari may evict IndexedDB. Do not treat export as a successful backup until physical iPhone Files readback. iPhone share/file-picker runtime NOT RUN.
