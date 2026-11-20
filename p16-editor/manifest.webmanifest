@@ -1,7 +1,7 @@
 {
-  "name": "Obsidian AI — учебный редактор TEST",
+  "name": "Obsidian AI · TEST v0.3.0",
   "short_name": "Obsidian AI TEST",
-  "description": "Только вымышленные заметки. Нет облачного сохранения или реального входа.",
+  "description": "Только синтетические заметки: локальное IndexedDB, без облака.",
   "lang": "ru",
   "id": "./?pae05-p16-1",
   "start_url": "./?pae05-p16-1",
