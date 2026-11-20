@@ -28,3 +28,14 @@ Pinned base: `13118049776f58635714a2aff374b51dc487c4ad`. Current GitHub Pages TE
 5. Existing CP-P22/S5 integration contract remains the sole roadmap: https://github.com/mastyukov-cyber/pae-sandbox/issues/53#issuecomment-7052775961. Do not create a second production Gateway or writer.
 
 **Rollback:** leave the Draft PR unmerged. Deployed v0.5.0 does not change. No deletion required.
+
+
+## CP-P22 R02 — narrowly scoped staging assets (source only, NOT RUN)
+
+- The ONLY staging assets destination is `cp-p22-worker-staging/.staging-assets/` (ignored by Git). Wrangler points to this generated directory; it **does not** publish the repository root.
+- At an independently authorized checkpoint with **Node.js 26**, run once from the repository root: `node cp-p22-worker-staging/prepare-assets.mjs`.
+- The prepare script requires **12 exact Git-blob SHA-1 pins**: 9 allowlisted PWA source files and exactly 3 ORIGINAL icon PNGs. It fails before writing if any source differs, and refuses to overwrite a pre-existing staging directory. No automatic cleanup/deletion.
+- All copies retain their original bytes **except the staged index.html only**: its Apple-touch link uses the pre-approved original 192px icon, because the exact owner scope allows only 3 icons. The published `p16-editor/index.html` and `manifest.webmanifest` are NOT edited.
+- The staged document and manifest are served at the staging origin root. Their original `../icons/...png` paths resolve to `/icons/...png`, which is now inside the staged asset root. Only the derived Apple-touch HTML link changes.
+- The staging script creates files ONLY under the ignored `.staging-assets/` directory, writes with `wx`, verifies its write readback, and does not deploy Worker, invoke wrangler/CI, create secrets, touch Dropbox, change Vault, or run the 14 Node tests.
+- This is packaging SOURCE_READY only. **Actual Node26 packaging run, Cloudflare binding/configuration, iPhone HTTPS, Security Gate and release remain NOT RUN / NO-GO.** Publication requires separate owner approval.
