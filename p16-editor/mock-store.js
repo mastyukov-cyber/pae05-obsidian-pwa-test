@@ -20,6 +20,10 @@
   if(!r||typeof r!=='object'||typeof r.id!=='string'||!/^(demo-\d\d|local-[a-f0-9-]{36})$/.test(r.id)||!Number.isSafeInteger(r.rev)||r.rev<1||r.rev>100000||!Array.isArray(r.history)||r.history.length<1||r.history.length>50)throw Error('UNTRUSTED_LOCAL_RECORD');
   validateText(r.title,1,80,'TITLE');validateText(r.text,0,5000,'BODY');
   if(r.history.some(h=>!h||h.id!==r.id||!Number.isSafeInteger(h.rev)||h.rev<1||typeof h.title!=='string'||h.title.length>80||typeof h.text!=='string'||h.text.length>5000))throw Error('UNTRUSTED_LOCAL_HISTORY');
+  const startRev=r.rev-r.history.length+1;
+  if(startRev<1||r.history.some((h,i)=>h.rev!==startRev+i))throw Error('UNTRUSTED_LOCAL_HISTORY');
+  const latest=r.history[r.history.length-1];
+  if(latest.rev!==r.rev||latest.title!==r.title||latest.text!==r.text)throw Error('UNTRUSTED_LOCAL_HISTORY');
   return {id:r.id,title:r.title,text:r.text,rev:r.rev,history:r.history.map(copy)};
  }
  function openDb(idb,name){return new Promise((resolve,reject)=>{
