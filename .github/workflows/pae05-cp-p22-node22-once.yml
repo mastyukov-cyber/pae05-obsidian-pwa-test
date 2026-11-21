@@ -1,0 +1,53 @@
+name: PAE-05 CP-P22 Node22 single synthetic QA
+on:
+  push:
+    branches:
+      - pilot/pae05-cp-p22-worker-readonly-20261121-01
+    paths:
+      - .github/workflows/pae05-cp-p22-node22-once.yml
+permissions:
+  contents: read
+jobs:
+  once:
+    if: ${{ github.event.before == 'a1a352f31094a5136a1b212d032f523b06badc2f' && github.event.forced == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact branch commit without retaining credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Fail closed on any source or scope mismatch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "a1a352f31094a5136a1b212d032f523b06badc2f"
+          test "$(git diff-tree --no-commit-id --name-status -r HEAD)" = "$(printf 'A\t.github/workflows/pae05-cp-p22-node22-once.yml')"
+          test "$(git hash-object cp-p22-worker-staging/prepare-assets.mjs)" = "642d141b32038abe50e2c89e6e3989707a187ed8"
+          test "$(git hash-object cp-p22-worker-staging/worker.mjs)" = "ee0b5c7e688aa972bf20f2d26a32b5c69af55929"
+          test "$(git hash-object cp-p22-worker-staging/test/worker.test.mjs)" = "61faaccafbcb838b4529729167083fef9a87ea02"
+      - name: Select pinned Node.js only on temporary runner
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Prepare and independently check exactly twelve staging assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v22.16.0"
+          node cp-p22-worker-staging/prepare-assets.mjs
+          test "$(find cp-p22-worker-staging/.staging-assets -type f | wc -l)" -eq 12
+          for name in icon-192.png icon-512.png icon-maskable-512.png; do
+            cmp "icons/$name" "cp-p22-worker-staging/.staging-assets/icons/$name"
+            sha256sum "icons/$name"
+          done
+          grep -Fq 'sizes="192x192" href="../icons/icon-192.png"' cp-p22-worker-staging/.staging-assets/index.html
+      - name: Exactly one existing fourteen-test Worker run
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-reporter=tap cp-p22-worker-staging/test/worker.test.mjs | tee /tmp/pae05_cp_p22_qa.tap
+          grep -Eq '^# tests 14$' /tmp/pae05_cp_p22_qa.tap
+          grep -Eq '^# pass 14$' /tmp/pae05_cp_p22_qa.tap
+          grep -Eq '^# fail 0$' /tmp/pae05_cp_p22_qa.tap
