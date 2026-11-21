@@ -1,0 +1,13 @@
+{
+  "name": "PAE-05 Obsidian PWA · QA HUB v1.0 PILOT",
+  "image": "mcr.microsoft.com/playwright:v1.65.1-noble",
+  "forwardPorts": [
+    8767
+  ],
+  "portsAttributes": {
+    "8767": {
+      "label": "PAE-05 synthetic TEST preview · KEEP PRIVATE",
+      "onAutoForward": "notify"
+    }
+  }
+}
