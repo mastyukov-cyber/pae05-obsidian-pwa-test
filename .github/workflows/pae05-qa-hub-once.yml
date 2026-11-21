@@ -1,0 +1,60 @@
+name: PAE-05 QA HUB v1 synthetic Chromium WebKit once
+
+on:
+  push:
+    branches:
+      - pilot/pae05-qa-hub-codespaces-v1-20261121
+    paths:
+      - .github/workflows/pae05-qa-hub-once.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pae05-qa-hub-once
+  cancel-in-progress: false
+
+jobs:
+  qa-once:
+    if: github.event.before == 'ea17be0912d49d42601055367f3432aecf1bf588' && github.event.created == false && github.event.deleted == false && github.event.forced == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+    env:
+      CI: 'true'
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout exact push commit without stored credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: STOP FIRST on unexpected branch, parent, files or runtime
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = 'refs/heads/pilot/pae05-qa-hub-codespaces-v1-20261121'
+          test "$(git rev-parse HEAD^)" = 'ea17be0912d49d42601055367f3432aecf1bf588'
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          expected="$(printf 'A\t.github/workflows/pae05-qa-hub-once.yml\nA\tqa-hub/package-lock.json')"
+          actual="$(git diff --name-status HEAD^ HEAD)"
+          test "$actual" = "$expected"
+          test -z "$(git status --porcelain)"
+          node --version
+          npm --version
+          test "$(node -p 'Number(process.versions.node.split(".")[0])>=22')" = true
+          node --check qa-hub/qa-hub.mjs
+          node -e "const p=require('./qa-hub/package.json'); const l=require('./qa-hub/package-lock.json'); if(p.dependencies.playwright!=='1.65.1'||l.packages['node_modules/playwright-core'].version!=='1.65.1'||l.packages[''].dependencies.playwright!=='1.65.1') process.exit(1)"
+      - name: Install exactly locked Playwright library with install scripts disabled
+        working-directory: qa-hub
+        run: npm ci --ignore-scripts --no-audit --no-fund --no-progress
+      - name: Check Git-blob SHA pins and synthetic guard
+        working-directory: qa-hub
+        run: npm run verify
+      - name: Exactly one fail-fast Chromium then Linux WebKit synthetic QA
+        working-directory: qa-hub
+        run: npm run qa
