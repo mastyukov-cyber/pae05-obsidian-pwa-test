@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   qa-once:
-    if: github.event.before == 'ea17be0912d49d42601055367f3432aecf1bf588' && github.event.created == false && github.event.deleted == false && github.event.forced == false
+    if: github.event.before == '0dab4614fc24462d25a368695dc26e1220e08bba' && github.event.created == false && github.event.deleted == false && github.event.forced == false
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
@@ -38,12 +38,15 @@ jobs:
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = 'refs/heads/pilot/pae05-qa-hub-codespaces-v1-20261121'
-          test "$(git rev-parse HEAD^)" = 'ea17be0912d49d42601055367f3432aecf1bf588'
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          expected="$(printf 'A\t.github/workflows/pae05-qa-hub-once.yml\nA\tqa-hub/package-lock.json')"
-          actual="$(git diff --name-status HEAD^ HEAD)"
+          test -n "$GITHUB_WORKSPACE"
+          test "$PWD" = "$GITHUB_WORKSPACE"
+          test -d "$GITHUB_WORKSPACE/.git"
+          test "$(git -c safe.directory="$GITHUB_WORKSPACE" rev-parse HEAD^)" = '0dab4614fc24462d25a368695dc26e1220e08bba'
+          test "$(git -c safe.directory="$GITHUB_WORKSPACE" rev-parse HEAD)" = "$GITHUB_SHA"
+          expected="$(printf 'M\t.github/workflows/pae05-qa-hub-once.yml')"
+          actual="$(git -c safe.directory="$GITHUB_WORKSPACE" diff --name-status HEAD^ HEAD)"
           test "$actual" = "$expected"
-          test -z "$(git status --porcelain)"
+          test -z "$(git -c safe.directory="$GITHUB_WORKSPACE" status --porcelain)"
           node --version
           npm --version
           test "$(node -p 'Number(process.versions.node.split(".")[0])>=22')" = true
