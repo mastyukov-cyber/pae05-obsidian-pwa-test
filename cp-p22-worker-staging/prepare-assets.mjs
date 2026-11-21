@@ -1,6 +1,6 @@
 /* CP-P22 R02: prepare only exact pinned synthetic staging assets.
  * This script does NOT deploy, run tests, alter source, delete, or overwrite.
- * Execute once with Node.js 26 after separate scoped approval.
+ * Execute once with Node.js 22 after separate scoped approval.
  */
 import assert from "node:assert/strict";
 import {createHash} from "node:crypto";
@@ -8,7 +8,7 @@ import {lstat,mkdir,readFile,writeFile} from "node:fs/promises";
 import {join} from "node:path";
 import {fileURLToPath} from "node:url";
 
-if(process.versions.node.split(".")[0]!=="26")throw Error("NODE26_REQUIRED");
+if(process.versions.node.split(".")[0]!=="22")throw Error("NODE22_REQUIRED");
 const ROOT=fileURLToPath(new URL("../",import.meta.url));
 const TARGET=fileURLToPath(new URL("./.staging-assets/",import.meta.url));
 const INPUTS=Object.freeze([
