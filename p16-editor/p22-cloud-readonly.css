@@ -1,0 +1,9 @@
+/* CP-P22 staging UI only. Current iPhone TEST v0.5.0 is unchanged. */
+.p22-test-panel{margin:12px 0;padding:14px;border:1px solid #b5c7e4;border-radius:14px;background:#f3f7ff}
+.p22-test-panel h2{font-size:1rem;margin:0 0 7px}
+.p22-test-panel p{margin:7px 0}
+.p22-controls,.p22-list{display:flex;gap:8px;flex-wrap:wrap}
+.p22-list{margin-top:8px}
+.p22-button{min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.p22-detail{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;background:#fff;border:1px solid #cbd6e5;border-radius:9px;padding:12px;max-height:280px;overflow:auto}
+.p22-detail[hidden]{display:none}
